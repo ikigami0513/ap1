@@ -159,7 +159,7 @@
     function getUserById(PDO $pdo, int $id)
     {
         $stmt = $pdo->prepare("
-            SELECT idUser, nom, prenom
+            SELECT idUser, nom, prenom, id_voiture, email
             FROM user
             WHERE idUser = ?
         ");
@@ -237,6 +237,72 @@
         ");
         $stmt->execute(array());
         return $stmt->fetchall();
+    }
+
+    function get_voiture(PDO $pdo, $id){
+        if($id == null){
+            return null;
+        }
+        $stmt = $pdo->prepare("
+            SELECT id, marque, modele 
+            FROM voiture
+            WHERE id = ?
+        ");
+        $stmt->execute(array($id));
+        $res = $stmt->fetchall();
+        if(count($res) == 1){
+            return new Voiture(
+                $res[0]["id"],
+                $res[0]["marque"],
+                $res[0]["modele"]
+            );
+        }
+        else{
+            return null;
+        }
+    }
+
+    function get_all_responsable(PDO $pdo){
+        $stmt = $pdo->prepare("
+            SELECT idUser, nom, prenom, voiture
+            FROM user
+            WHERE role = 2;
+        ");
+        $stmt->execute(array());
+        return $stmt->fetchall();
+    }
+
+    function get_all_voitures_disponibles(PDO $pdo){
+        $stmt = $pdo->prepare("
+            SELECT id, marque, modele
+            FROM voiture
+            WHERE id NOT IN (
+                SELECT id_voiture
+                FROM user
+                WHERE id_voiture IS NOT NULL
+            );
+        ");
+        $stmt->execute(array());
+        return $stmt->fetchall();
+    }
+
+    function updateUser(PDO $pdo, int $id, string $nom, string $prenom, string $email, int $voiture){
+        if($voiture == 0){
+            $stmt = $pdo->prepare("
+                UPDATE user
+                SET nom = ?, prenom = ?, email = ?
+                WHERE idUser = ?;
+            ");
+            $stmt->execute(array($nom, $prenom, $email, $id));
+        }
+        else{
+            $stmt = $pdo->prepare("
+                UPDATE user
+                SET nom = ?, prenom = ?, email = ?, id_voiture = ?
+                WHERE idUser = ?;
+            ");
+            $stmt->execute(array($nom, $prenom, $email, $voiture, $id));
+        }
     }
 
 ?>

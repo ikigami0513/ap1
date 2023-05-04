@@ -25,6 +25,7 @@
                     require("../settings.php");
                     require("../template/menu.php");
                     require("../../library/Template.php");
+                    require("../class/User.php");
                     menu($root);
                     require("../php/form.php");
                     connexionForm();

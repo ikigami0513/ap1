@@ -26,32 +26,37 @@
 
                 echo "<table><thead><tr>";
 
-                foreach($dataDb[0] as $cle=>$value)
-                {
-                  echo "<th>$cle</th>";
-                }
-
-                echo "<th>modification</th>";
-
-                echo "</tr></thead></tbody>";
-
-                foreach($dataDb as $cle=>$value)
-                {
-                  echo "<tr>";
-                  foreach($value as $cle2=>$value2)
+                if(count($dataDb) > 0){
+                  foreach($dataDb[0] as $cle=>$value)
                   {
-                    echo "<td>$value2</td>";
+                    echo "<th>$cle</th>";
                   }
 
-                  echo "
-                    <td>
-                      <a href=\"$root/php/modifierDemandeResponsable.php?id=" . $value["idDemande"] . "\"><button>Modifier</button></a>
-                    </td>
-                  ";
-                  echo "</tr>";
-                }
+                  echo "<th>modification</th>";
 
-                echo "</tbody></table>";
+                  echo "</tr></thead></tbody>";
+
+                  foreach($dataDb as $cle=>$value)
+                  {
+                    echo "<tr>";
+                    foreach($value as $cle2=>$value2)
+                    {
+                      echo "<td>$value2</td>";
+                    }
+
+                    echo "
+                      <td>
+                        <a href=\"$root/php/modifierDemandeResponsable.php?id=" . $value["idDemande"] . "\"><button>Modifier</button></a>
+                      </td>
+                    ";
+                    echo "</tr>";
+                  }
+
+                  echo "</tbody></table>";
+                }
+                else{
+                  echo "Aucune demande n'a été trouvée.";
+                }
             }
         }
     }

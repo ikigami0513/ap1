@@ -40,6 +40,8 @@
                     $dataDb["nom"],
                     $dataDb["prenom"],
                     $dataDb["libelle"],
+                    get_voiture($pdo, $dataDb["voiture"]),
+                    $dataDb["isAdmin"],
                     $dataDb["creerDemande"],
                     $dataDb["modifierPriorite"],
                     $dataDb["assignerEmploye"],
